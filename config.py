@@ -3,4 +3,5 @@ SECRET_KEY = 'You-will-never-guess-this'
 
 #database
 SQLALCHEMY_DATABASE_URI = 'mysql://user:user@localhost/project'
+SQLALCHEMY_MIGRATE_REPO = ''
 
