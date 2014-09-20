@@ -1,24 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Sign up</h2>
-<form action = "" method = "post" name = "signup">
+<h2>Sign up to Poll</h2>
+<form id="container" action = "" method = "post" name = "signup">
     {{form.hidden_tag()}}
-    <p>Name: {{form.name}}</p>
+    <p>Name &nbsp; &nbsp; &nbsp; {{form.name}}</p>
     {% for error in form.errors.name %}
-    <span style="color:red;">[{{error}}]</span>
+    <span class="error">{{error}}</span>
     {% endfor %}
 
-    <p>Email: {{form.email}}</p>
+    <p>Email  &nbsp;&nbsp;&nbsp; &nbsp; {{form.email}}</p>
     {% for error in form.errors.email %}
-    <span style="color:red;">[{{error}}]</span>
+    <span class="error">{{error}}</span>
     {% endfor %}
 
-    <p>Password: {{ form.password }}</p>
+    <p>Password {{ form.password }}</p>
     {% for error in form.errors.password %}
-    <span style="color:red;">[{{error}}]</span>
+    <span class="error">{{error}}</span><br>
     {% endfor %}
     <br>
 
-    <input type = "submit" value = "Sign Up">
+    <input id="button" type = "submit" value = "Sign Up">
+    <a id="sign_in" href="/login">Already Signed Up? Sign In ! </a>
 </form>
+
 {% endblock %}

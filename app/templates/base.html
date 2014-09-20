@@ -7,12 +7,13 @@
     {% else %}
     <title>Roll The Poll</title>
     {% endif %}
+    <link rel="stylesheet" href="/static/css/signup.css">
 </head>
 <body>
-    <div id="container">
+    <div id="wrapper">
         <div id="header">
             <h1>Roll The Poll</h1>
-            <hr>
+
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             <ul>
