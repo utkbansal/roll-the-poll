@@ -17,6 +17,11 @@
     {% for error in form.errors.password %}
     <span style="color:red;">[{{error}}]</span>
     {% endfor %}
+
+    <p>Confirm Password: {{ form.password2 }}</p>
+    {% for error in form.errors.password2 %}
+    <span style="color:red;">[{{error}}]</span>
+    {% endfor %}
     <br>
 
     <input type = "submit" value = "Sign Up">
