@@ -1,0 +1,62 @@
+/* for heading roll the poll */
+h1 {
+    width: 350px;
+    height:40px;
+    margin:auto;
+    text-align: center;
+    color:red;
+}
+/* for the signup only */
+h2 {
+    width: 350px;
+    height:30px;
+    margin:auto;
+    text-align: center;
+    margin-bottom: 0px;
+    font-size:38px;
+    font-weight:400;
+    color:#555;
+    font-family: 'open sans';
+}
+
+
+#container {
+    height: 300px;
+    width: 350px;
+    box-shadow: 0px 2px 2px rgba(0,0,0,0.3);
+    margin: auto;
+    font-size: 20px;
+    background-color: #f7f7f7;
+    margin-top: 50px;
+    font-family: arial;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+#button {
+    margin-left:16px;
+    background-color: #357ae8;
+    color:#ffffff;
+    padding: 13px 126px;
+    border:1px solid #357ae8;
+    -moz-border-radius: 6px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#sign_in {
+    font-size: 13px;
+    float:right;
+    padding-right: 25px;
+    padding-top:15px;
+    text-align: right;
+    color:#427fed;
+    cursor: pointer;
+    margin-left:15px;
+    text-decoration: none;
+}
+
+.error {
+    color:red;
+    font-size: 15px;
+}
