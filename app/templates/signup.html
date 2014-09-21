@@ -18,14 +18,20 @@
     <span class="error">{{error}}</span><br>
     {% endfor %}
 
-    <p>Confirm Password: {{ form.password2 }}</p>
+    <p>Confirm &nbsp;&nbsp; {{ form.password2 }}</p>
     {% for error in form.errors.password2 %}
-    <span style="color:red;">[{{error}}]</span>
+    <span class="error">{{error}}</span>
     {% endfor %}
     <br>
 
     <input id="button" type = "submit" value = "Sign Up">
     <a id="sign_in" href="/login">Already Signed Up? Sign In ! </a>
+
+
+
+
 </form>
+
+
 
 {% endblock %}

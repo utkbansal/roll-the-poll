@@ -1,10 +1,23 @@
+
+.heading {
+    font-size: 100px;
+}
+
+body {
+    background-image:url("/static/img/background.jpg" );
+}
+
 /* for heading roll the poll */
 h1 {
+    font-family: 'Playball', cursive;
     width: 350px;
     height:40px;
     margin:auto;
     text-align: center;
     color:red;
+    float:left;
+    font-size: 45px;
+    margin-top: -90px;
 }
 /* for the signup only */
 h2 {
@@ -12,7 +25,7 @@ h2 {
     height:30px;
     margin:auto;
     text-align: center;
-    margin-bottom: 0px;
+    margin-top: 100px;
     font-size:38px;
     font-weight:400;
     color:#555;
@@ -21,7 +34,7 @@ h2 {
 
 
 #container {
-    height: 300px;
+    height: auto;
     width: 350px;
     box-shadow: 0px 2px 2px rgba(0,0,0,0.3);
     margin: auto;
@@ -34,14 +47,17 @@ h2 {
 }
 
 #button {
-    margin-left:16px;
-    background-color: #357ae8;
+   margin-left:16px;
+
+
     color:#ffffff;
-    padding: 13px 126px;
+     background-color:#6D7773 ;
+    padding: 10px 120px;
     border:1px solid #357ae8;
     -moz-border-radius: 6px;
     border-radius: 10px;
     cursor: pointer;
+    font-size: 20px;
 }
 
 #sign_in {
