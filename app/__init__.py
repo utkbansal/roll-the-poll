@@ -13,6 +13,7 @@ login_manager = LoginManager(app)
 #initialise database
 db = SQLAlchemy(app)
 
+
 from app import views, models
 
 #define the view to be redirected to in case of unauthenticated user

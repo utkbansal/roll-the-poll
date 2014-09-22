@@ -1,0 +1,9 @@
+{% extends "base2.html" %}
+{% block content %}
+<div id ="questions">
+{% for poll in polls %}
+    <p>{{ poll }}</p><br>
+  {% endfor %}
+</div>
+
+{% endblock %}

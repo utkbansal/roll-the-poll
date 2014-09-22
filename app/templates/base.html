@@ -2,27 +2,20 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    {% if title %}
-    <title>{{ title }} - Roll The Poll</title>
-    {% else %}
-    <title>Roll The Poll</title>
-    {% endif %}
-    <link rel="stylesheet" href="/static/css/signup.css">
-
-
-
-    <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
+    <title>{{ g.user.name }}</title>
+    <link rel="stylesheet" href="/static/css/base.css">
 
 </head>
 <body>
-
-    <div id="wrapper">
-        <div id="header">
-
-            <h1><span class="heading">R</span>oll <span class="heading">T</span>he <span class="heading">P</span>oll</h1>
-        </div>
-
-            {% with messages = get_flashed_messages() %}
+<div id="navbar">
+    <ul id = nav-wrap>
+        <li class ="link" ><a href="" id = "rtp">Roll The Poll</a></l1>
+        <li class ="link"><a href="">Home</a></l1>
+        <li class ="link"><a href="" id="right">{{ g.user.name }}</a></l1>
+    </ul>
+</div>
+<div>
+    {% with messages = get_flashed_messages() %}
             {% if messages %}
             <ul>
                 {% for message in messages %}
@@ -31,10 +24,9 @@
             </ul>
             {% endif %}
             {% endwith %}
-        </div>
-        {% block content %}
-        
-        {% endblock %}
-    </div>
+</div>
+{% block content %}
+{% endblock  %}
+
 </body>
 </html>

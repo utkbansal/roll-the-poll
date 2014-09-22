@@ -19,4 +19,8 @@ class LoginForm(Form):
     email = StringField('Name', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
-    submit  = SubmitField('Log in')
+    submit = SubmitField('Log in')
+
+    def validate_email(self, field):
+        if models.User.query.filter_by(email=field.data).first() is None:
+            raise ValidationError('Email not registered.')
