@@ -28,10 +28,10 @@ def index():
     if g.user is not None:
         user = models.User.query.filter_by(email = g.user).first().name
         polls = models.Poll.query.all()
-        return render_template('secret.html', user = user, polls = polls)
+        return render_template('content.html', user = user, polls = polls)
 
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def signup():
     signup_form = SignupForm()
     if signup_form.validate_on_submit():
@@ -44,7 +44,7 @@ def signup():
 
         flash('Sign Up Sucessful')
         return redirect(url_for('index'))
-    return render_template('signup.html', title='Sign Up', form=signup_form)
+    return render_template('register.html', title='Sign Up', form=signup_form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
