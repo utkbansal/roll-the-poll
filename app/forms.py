@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, SubmitField, BooleanField,ValidationError
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms import StringField, PasswordField, SubmitField, BooleanField,ValidationError, TextAreaField, SelectField, RadioField
+from wtforms.validators import DataRequired, Email, EqualTo, Optional
 from app import models
 
 
@@ -15,6 +15,7 @@ class SignupForm(Form):
         if models.User.query.filter_by(email=field.data).first():
             raise ValidationError('Email already registered.')
 
+
 class LoginForm(Form):
     email = StringField('Name', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -24,3 +25,17 @@ class LoginForm(Form):
     def validate_email(self, field):
         if models.User.query.filter_by(email=field.data).first() is None:
             raise ValidationError('Email not registered.')
+
+class PollForm(Form):
+    poll = TextAreaField('Poll', validators=[DataRequired()])
+    choice1 = StringField('Choice 1', validators=[DataRequired()])
+    choice2 = StringField('Choice 2', validators=[DataRequired()])
+    choice3 = StringField('Choice 3')
+    choice4 = StringField('Choice 4')
+    category = SelectField('Category', choices = [(int(x.id), str(x.name)) for x in models.Category.query.order_by('name')])
+    anonymous = BooleanField('Anonymous')
+    submit = SubmitField('Submit')
+
+class VoteForm(Form):
+    choice = RadioField('Select')
+    submit = SubmitField('Poll')

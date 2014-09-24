@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, flash, redirect, url_for, g
-from forms import SignupForm, LoginForm
+from forms import SignupForm, LoginForm, PollForm, VoteForm
 from werkzeug.security import generate_password_hash
 from app import models, db
 from flask.ext.login import login_required, login_user, logout_user, current_user
@@ -18,17 +18,21 @@ def logout_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
 @app.before_request
 def before_request():
     g.user = current_user
+
 
 @app.route('/')
 @login_required
 def index():
     if g.user is not None:
-        user = models.User.query.filter_by(email = g.user).first().name
+        user = models.User.query.filter_by(email=g.user).first().name
         polls = models.Poll.query.all()
-        return render_template('content.html', user = user, polls = polls)
+        urls = {x: str(x.body).replace(' ','-').replace('?','~') for x in models.Poll.query.all()}
+
+        return render_template('content.html', user=user, url = urls)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -73,4 +77,62 @@ def logout():
     return redirect(url_for('login'))
 
 
+@app.route('/profile/<int:id>')
+@login_required
+def profile(id):
+    id = id
+    msg = "hello"
+    if models.User.query.get(id) is not None:
+        return render_template('profile.html', user=models.User.query.get(id).name)
+    return render_template('profile.html', user=None, alert = msg)
 
+
+'''@app.route('/add-poll', methods=['GET', 'POST'])
+@login_required
+def add_poll():
+    poll_form = PollForm()
+    if poll_form.validate_on_submit():
+        poll = models.Poll(
+            body=poll_form.poll.data,
+            user_id= g.user.id,
+            cat_id= poll_form.category.data,
+            anonymous= poll_form.anonymous.data
+        )
+
+
+        db.session.add(poll)
+        db.session.commit()
+        choice = models.Choice(
+            poll_d = poll.id,
+            value=poll_form.choice1.data
+        )
+        db.session.add(choice)
+        db.session.commit()
+
+
+
+        flash('Poll added successfully...')
+        return redirect(url_for('index'))
+    return render_template('add_poll.html', form = poll_form)
+'''
+
+@app.route('/poll/<poll>/', methods = ['GET', 'POST'])
+@login_required
+def poll(poll):
+    poll = poll.replace('-', ' ')
+    poll = poll.replace('~', '?')
+    vote_form = VoteForm()
+    poll1 = models.Poll.query.filter_by(body = poll)
+    #vote form ki choice field me choices add
+    vote_form.choice.choices = [(str(x.choice_id), str(x.value)) for x in models.Poll.query.filter_by(body = poll).first().choices.all() ]
+
+
+    if vote_form.validate_on_submit(): #and vote_form.choice.data is not None:
+        models.Choice.query.get(vote_form.choice.data).vote()
+        db.session.commit()
+        flash('Voted Successfully')
+        return redirect('/')
+
+
+
+    return render_template('vote.html',poll=poll, form = vote_form)

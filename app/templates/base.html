@@ -2,29 +2,32 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>{{ g.user.name }}</title>
+    <title>{{ g.user.id }}</title>
     <link rel="stylesheet" href="/static/css/base.css">
 
 </head>
 <body>
 <div id="navbar">
     <ul id = nav-wrap>
-        <li class ="link" ><a href="" id = "rtp">Roll The Poll</a></l1>
+        <li class ="link" ><a href="/" id = "rtp">Roll The Poll</a></l1>
         <li class ="link"><a href="">Home</a></l1>
-        <li class ="link"><a href="" id="right">{{ g.user.name }}</a></l1>
+        <li class ="link"><a href="/profile/{{ g.user.id }}" id="right">{{ g.user.name }}</a></l1>
     </ul>
 </div>
-<div>
+
+
     {% with messages = get_flashed_messages() %}
             {% if messages %}
+            <div>
             <ul>
                 {% for message in messages %}
                 <li>{{message}}</li>
                 {% endfor %}
             </ul>
+            </div>
             {% endif %}
             {% endwith %}
-</div>
+
 {% block content %}
 {% endblock  %}
 

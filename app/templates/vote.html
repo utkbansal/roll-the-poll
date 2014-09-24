@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+    {{ form.errors }}
+
+    <form method="post">
+    {{ form.hidden_tag() }}
+    {{ poll }}
+        <ul>
+    {{ form.choice }}
+    </ul>
+    {{ form.submit }}
+    </form>
+{% endblock %}

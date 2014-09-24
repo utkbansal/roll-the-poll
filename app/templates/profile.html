@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if user %}
+    <p>This is the profile for {{ user }}</p>
+    {% else %}
+    <p>Sorry ! No user found...</p>
+    {% endif %}
+    <script type="text/javascript" src=""></script>
+{% endblock %}
