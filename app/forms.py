@@ -30,9 +30,9 @@ class PollForm(Form):
     poll = TextAreaField('Poll', validators=[DataRequired()])
     choice1 = StringField('Choice 1', validators=[DataRequired()])
     choice2 = StringField('Choice 2', validators=[DataRequired()])
-    choice3 = StringField('Choice 3')
-    choice4 = StringField('Choice 4')
-    category = SelectField('Category', choices = [(int(x.id), str(x.name)) for x in models.Category.query.order_by('name')])
+    choice3 = StringField('Choice 3',validators=[Optional()])
+    choice4 = StringField('Choice 4', validators=[Optional()])
+    category = SelectField('Category', choices = [(str(x.id), str(x.name)) for x in models.Category.query.order_by('name')])
     anonymous = BooleanField('Anonymous')
     submit = SubmitField('Submit')
 
