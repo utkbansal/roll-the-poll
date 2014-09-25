@@ -6,6 +6,9 @@ from app import models, db
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from wtforms import ValidationError
 from functools import wraps
+from flask.ext.admin import Admin, BaseView, expose
+from flask.ext.admin.contrib.sqla import ModelView
+
 
 
 def logout_required(f):
@@ -136,3 +139,19 @@ def poll(poll):
 
 
     return render_template('vote.html',poll=poll, form = vote_form)
+
+
+#    @app.route('/admin')\
+
+class MyView(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('admin_index.html')
+
+admin = Admin(app)
+
+admin.add_view(ModelView(models.User, db.session))
+admin.add_view(ModelView(models.Poll, db.session))
+admin.add_view(ModelView(models.Choice, db.session))
+admin.add_view(ModelView(models.Comment, db.session))
+admin.add_view(ModelView(models.Category, db.session))

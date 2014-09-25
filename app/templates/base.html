@@ -28,8 +28,23 @@
             {% endif %}
             {% endwith %}
 
-{% block content %}
-{% endblock  %}
+<div id="container">
+
+    <div id="left">
+        <ul>
+            <li>Compose</li>
+            <li>My Polls</li>
+            <li>Polls Participated</li>
+
+
+    </div>
+
+
+    <div id="middle">
+         {% block content %}
+         {% endblock  %}
+     </div>
+</div>
 
 </body>
 </html>

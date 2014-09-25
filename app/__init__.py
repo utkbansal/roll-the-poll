@@ -1,8 +1,9 @@
 from flask import Flask
-#from app import views
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from flask.ext.wtf.csrf import CsrfProtect
+from flask.ext.admin import Admin
+from flask.ext.admin.contrib.sqla import ModelView
 
 app = Flask(__name__)
 #pick configurations from config.py
@@ -19,6 +20,3 @@ from app import views, models
 
 #define the view to be redirected to in case of unauthenticated user
 login_manager.login_view = 'login'
-
-#enable csrf
-#CsrfProtect(app)

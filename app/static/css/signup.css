@@ -5,6 +5,9 @@
 
 body {
     background-image:url("/static/img/background.jpg" );
+    margin-top:-200px;
+    position:relative;
+
 }
 
 /* for heading roll the poll */
@@ -17,7 +20,8 @@ h1 {
     color:red;
     float:left;
     font-size: 45px;
-    margin-top: -90px;
+    margin-top:-130px ;
+
 }
 /* for the signup only */
 h2 {
@@ -30,6 +34,7 @@ h2 {
     font-weight:400;
     color:#555;
     font-family: 'open sans';
+    margin-top: 350px;
 }
 
 
@@ -40,7 +45,7 @@ h2 {
     margin: auto;
     font-size: 20px;
     background-color: #f7f7f7;
-    margin-top: 50px;
+    margin-top: 67px;
     font-family: arial;
     padding: 40px;
     border-radius: 10px;
@@ -75,4 +80,9 @@ h2 {
 .error {
     color:red;
     font-size: 15px;
+}
+
+#flash {
+    float:left;
+    color:white;
 }
