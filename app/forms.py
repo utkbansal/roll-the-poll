@@ -38,4 +38,6 @@ class PollForm(Form):
 
 class VoteForm(Form):
     choice = RadioField('Select')
+    comment = TextAreaField('Comment', validators=[Optional()])
     submit = SubmitField('Poll')
+    anonymous = BooleanField('Anonymous')

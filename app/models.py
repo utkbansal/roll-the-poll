@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128), nullable = False)#hashed_password
     polls = db.relationship("Poll", backref = "creator", lazy = "dynamic")
     voted = db.relationship("isVoted", backref = "voter", lazy = "dynamic")
+    comments = db.relationship("Comment", backref = "commenter", lazy = "dynamic")
 	
     def __repr__(self):
         return self.email
@@ -92,7 +93,8 @@ class Choice(db.Model):
 #comment table
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    c_choice_id = db.Column(db.String(10), db.ForeignKey("choice.choice_id"), nullable = False)#comment choice id
+    #comment choice id is c_choice_id
+    c_choice_id = db.Column(db.String(10), db.ForeignKey("choice.choice_id"), nullable = False)
     body = db.Column(db.Text(200), nullable = False)
     timestamp = db.Column(db.DateTime, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable = False)
@@ -114,3 +116,6 @@ class isVoted(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     poll_id = db.Column(db.Integer, db.ForeignKey("poll.id"), nullable=False)
     option_id = db.Column(db.String(10), db.ForeignKey("choice.choice_id"), nullable=False)
+
+    def __repr__(self):
+        return str(self.poll_id)

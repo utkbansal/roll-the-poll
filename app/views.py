@@ -139,12 +139,35 @@ def poll(poll):
     poll = poll.replace('-', ' ')
     poll = poll.replace('~', '?')
     vote_form = VoteForm()
-    poll1 = models.Poll.query.filter_by(body = poll)
-    #vote form ki choice field me choices add
+    voted = False
+    var = models.isVoted.query.filter_by(user_id = g.user.id)
+    vote_list = [x for x in var]
+    if vote_list:
+        for vote in vote_list:
+            if vote.poll_id == models.Poll.query.filter_by(body = poll).first().id:
+                voted = True
+    #vote form ki choice field me choices add (to make a dynamic list for selection)
     vote_form.choice.choices = [(str(x.choice_id), str(x.value)) for x in models.Poll.query.filter_by(body = poll).first().choices.all()]
-    if vote_form.validate_on_submit():  #and vote_form.choice.data is not None:
+    if vote_form.validate_on_submit():
+        # add a vote to the choice
         models.Choice.query.get(vote_form.choice.data).vote()
+        voted = models.isVoted(
+            user_id=g.user.id,
+            poll_id=int(models.Poll.query.filter_by(body = poll).first().id),
+            option_id = vote_form.choice.data
+        )
+        #update the isVoted table
+        db.session.add(voted)
+        comment = models.Comment(
+            choice_id = vote_form.choice.data,
+            user_id=g.user.id,
+            body=vote_form.comment.data,
+            anonymous= vote_form.anonymous.data
+        )
+
+        db.session.add(comment)
+
         db.session.commit()
         flash('Voted Successfully')
         return redirect('/')
-    return render_template('vote.html',poll=poll, form = vote_form)
+    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted)

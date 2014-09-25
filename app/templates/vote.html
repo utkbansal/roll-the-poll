@@ -2,13 +2,32 @@
 {% block content %}
 
     {{ form.errors }}
+    {% if not voted %}
 
-    <form method="post">
-    {{ form.hidden_tag() }}
-    {{ poll }}
+        <form method="post">
+            {{ form.hidden_tag() }}
+            {{ poll }}
+               <ul>
+            <li>{{ form.choice }}</li>
+            </ul>
+            Comment your views {{ form.comment }}<br>
+            {{ form.anonymous }}Anonymous<br>
+            {{ form.submit }}
+        </form>
+    {% endif %}
+    {% if voted %}
+        <p>{{ poll }}</p>
+        <ol>
+        {% for choice in poll.choices.all() %}
+        <li><p>{{ choice }}</p></li>
         <ul>
-    {{ form.choice }}
-    </ul>
-    {{ form.submit }}
-    </form>
+            {% for comment in choice.comments %}
+                {% if comment %}
+                <li>{{comment}}</li><br/><p>commented by {{ comment.commenter.name }}
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endfor %}
+        </ol>
+    {% endif %}
 {% endblock %}
