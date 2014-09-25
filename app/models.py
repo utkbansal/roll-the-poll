@@ -11,6 +11,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique = True, nullable = False)
     password_hash = db.Column(db.String(128), nullable = False)#hashed_password
     polls = db.relationship("Poll", backref = "creator", lazy = "dynamic")
+    voted = db.relationship("isVoted", backref = "voter", lazy = "dynamic")
+    comments = db.relationship("Comment", backref = "commenter", lazy = "dynamic")
 	
     def __repr__(self):
         return self.email
@@ -28,6 +30,7 @@ class Poll(db.Model):
     cat_id = db.Column(db.Integer, db.ForeignKey("category.id"), nullable = False)
     anonymous = db.Column(db.Boolean, nullable = False)
     choices = db.relationship("Choice", backref = "poll", lazy = "dynamic")
+    users_voted = db.relationship("isVoted", backref = "polled", lazy = "dynamic")
     def __init__(self, body, user_id, cat_id, anonymous):
         
         self.timestamp = datetime.datetime.utcnow()
@@ -58,7 +61,7 @@ class Choice(db.Model):
     value = db.Column(db.String(100), index = True, nullable = False)
     votes = db.Column(db.Integer, nullable = False)
     comments = db.relationship("Comment", backref = "choice", lazy = "dynamic")
-
+    user_voted = db.relationship("isVoted", backref = "user_choice", lazy = "dynamic")
 
     def __init__(self, poll_id, value):
         if poll_id not in Choice.poll_id_dict.keys():
@@ -90,7 +93,8 @@ class Choice(db.Model):
 #comment table
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    c_choice_id = db.Column(db.String(10), db.ForeignKey("choice.choice_id"), nullable = False)#comment choice id
+    #comment choice id is c_choice_id
+    c_choice_id = db.Column(db.String(10), db.ForeignKey("choice.choice_id"), nullable = False)
     body = db.Column(db.Text(200), nullable = False)
     timestamp = db.Column(db.DateTime, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable = False)
@@ -105,3 +109,13 @@ class Comment(db.Model):
 
     def __repr__(self):
         return self.body
+
+#voted table
+class isVoted(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    poll_id = db.Column(db.Integer, db.ForeignKey("poll.id"), nullable=False)
+    option_id = db.Column(db.String(10), db.ForeignKey("choice.choice_id"), nullable=False)
+
+    def __repr__(self):
+        return str(self.poll_id)
