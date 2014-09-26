@@ -32,7 +32,7 @@ class PollForm(Form):
     choice2 = StringField('Choice 2', validators=[DataRequired()])
     choice3 = StringField('Choice 3',validators=[Optional()])
     choice4 = StringField('Choice 4', validators=[Optional()])
-    category = SelectField('Category', choices = [(str(x.id), str(x.name)) for x in models.Category.query.order_by('name')])
+    poll_category = SelectField('Category', choices = [(str(x.id), str(x.name)) for x in models.Category.query.order_by('name')])
     anonymous = BooleanField('Anonymous')
     submit = SubmitField('Submit')
 

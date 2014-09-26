@@ -97,7 +97,7 @@ def add_poll():
         poll = models.Poll(
             body=poll_form.poll.data,
             user_id=g.user.id,
-            cat_id=poll_form.category.data,
+            cat_id=poll_form.poll_category.data,
             anonymous=poll_form.anonymous.data
         )
         db.session.add(poll)
@@ -173,6 +173,7 @@ def poll(poll):
         db.session.commit()
         flash('Voted Successfully')
         return redirect('/')
+    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted)
 #<<<<<<< HEAD
 
 
@@ -193,5 +194,5 @@ admin.add_view(ModelView(models.Choice, db.session))
 admin.add_view(ModelView(models.Comment, db.session))
 admin.add_view(ModelView(models.Category, db.session))
 '''=======
-    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted)
+
 >>>>>>> d4235001f9c59111fcd1be630daec4814f915914'''
