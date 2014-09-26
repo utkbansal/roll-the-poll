@@ -1,6 +1,6 @@
 from app import db, login_manager
 from flask.ext.login import UserMixin
-#from warkzeg.security import generate_password_hash, check_password_hash
+#from werkzueg.security import generate_password_hash, check_password_hash
 import string
 import datetime
 

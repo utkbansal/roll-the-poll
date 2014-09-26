@@ -4,15 +4,15 @@ from forms import SignupForm, LoginForm, PollForm, VoteForm
 #from werkzeug.security import generate_password_hash
 from app import models, db
 from flask.ext.login import login_required, login_user, logout_user, current_user
-#from wtforms import ValidationError
 from functools import wraps
+from GChartWrapper import Pie3D
 
 
+#creating the @logout_required decorator
 def logout_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if g.user.is_authenticated():
-            #raise ValidationError('You are already logged in')
             flash('You are already logged in')
             return redirect(url_for('index'))
         return f(*args, **kwargs)
@@ -82,8 +82,9 @@ def logout():
 def profile(id):
     msg = "hello"
     if models.User.query.get(id) is not None:
-        return render_template('profile.html', user=models.User.query.get(id).name)
-    return render_template('profile.html', user=None, alert=msg)
+        return render_template('profile.html', user=models.User.query.get(id))
+    else:
+        return render_template('profile.html', user=None, alert=msg)
 
 
 @app.route('/add-poll', methods=['GET', 'POST'])
@@ -148,6 +149,12 @@ def poll(poll):
                 voted = True
     #vote form ki choice field me choices add (to make a dynamic list for selection)
     vote_form.choice.choices = [(str(x.choice_id), str(x.value)) for x in models.Poll.query.filter_by(body = poll).first().choices.all()]
+
+    #adding pie chart
+    c = [x for x in models.Poll.query.filter_by(body = poll).first().choices]
+    v = [int(x.votes) for x in models.Poll.query.filter_by(body=poll).first().choices]
+    chart = str(Pie3D(v).color('red', 'green', 'blue', 'yellow'))
+
     if vote_form.validate_on_submit():
         # add a vote to the choice
         models.Choice.query.get(vote_form.choice.data).vote()
@@ -156,18 +163,19 @@ def poll(poll):
             poll_id=int(models.Poll.query.filter_by(body = poll).first().id),
             option_id = vote_form.choice.data
         )
+
         #update the isVoted table
         db.session.add(voted)
-        comment = models.Comment(
-            choice_id = vote_form.choice.data,
-            user_id=g.user.id,
-            body=vote_form.comment.data,
-            anonymous= vote_form.anonymous.data
-        )
 
-        db.session.add(comment)
-
+        if vote_form.comment.data is not None and vote_form.comment.data != '':
+            comment = models.Comment(
+                choice_id = vote_form.choice.data,
+                user_id=g.user.id,
+                body=vote_form.comment.data,
+                anonymous= vote_form.anonymous.data
+            )
+            db.session.add(comment)
         db.session.commit()
         flash('Voted Successfully')
         return redirect('/')
-    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted)
+    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted, chart=chart)
