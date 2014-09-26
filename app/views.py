@@ -8,6 +8,7 @@ from functools import wraps
 from GChartWrapper import Pie3D
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.admin.contrib.sqla import ModelView
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
@@ -58,17 +59,15 @@ def signup():
 @logout_required
 def login():
     login_form = LoginForm()
-    if login_form.validate_on_submit() and models.User.query.filter_by(email=str(login_form.email.data)).first() is not None:
-        password = str(models.User.query.filter_by(email=str(login_form.email.data)).first().password_hash)
-        if password == str(login_form.password.data):
-            login_user(models.User.query.filter_by(email=login_form.email.data).first(), remember=login_form.remember_me.data)
+    if login_form.validate_on_submit() :
+        user = models.User.query.filter_by(email=str(login_form.email.data)).first()
+        if user is not None and user.check_password(login_form.password.data):
+            login_user(user, login_form.remember_me.data)
             flash('Hi User')
             return redirect(url_for('index'))
-        else:
-            flash('Invalid credentials')
-            redirect(url_for('login'))
-    if models.User.query.filter_by(email=str(login_form.email.data)).first():
-        flash('Email Id Not Registered')
+
+        flash('Invalid credentials')
+        redirect(url_for('login'))
     return render_template('login.html', form=login_form)
 
 

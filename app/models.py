@@ -1,6 +1,6 @@
 from app import db, login_manager
 from flask.ext.login import UserMixin
-#from werkzueg.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import string
 import datetime
 
@@ -20,6 +20,17 @@ class User(UserMixin, db.Model):
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
+
+    def __init__(self, name, email, password_hash):
+        self.name = name
+        self.email = email
+        self.set_password(password_hash)
+
+    def set_password(self, password_hash):
+        self.password_hash = generate_password_hash(password_hash)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 #poll table
 class Poll(db.Model):
