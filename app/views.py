@@ -32,8 +32,8 @@ def before_request():
 def index():
     if g.user is not None:
         user = models.User.query.filter_by(email=g.user).first().name
-        #polls = models.Poll.query.all()
-        urls = {x: str(x.body).replace(' ', '-').replace('?', '~') for x in models.Poll.query.all()}
+        polls = sorted([x for x in models.Poll.query.all()], key = lambda y: y.timestamp, reverse = True)
+        urls = [(x, str(x.body).replace(' ', '-').replace('?', '~')) for x in polls]
 
         return render_template('content.html', user=user, url=urls)
 

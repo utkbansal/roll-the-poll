@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+<h3>{{user}}'s Poll-line</h3>
 <ul>
-{% for u in url.keys() %}
+{% for u in url %}
 <div>
-    <li><a href="/poll/{{ url[u] }}">{{ u }}</a></li>
+    <li><a href="/poll/{{ u[1] }}">{{ u[0] }}</a></li>
     <ol>
-        {% for choice in u.choices.all() %}
+        {% for choice in u[0].choices.all() %}
         <li>{{ choice }}</li>
 
         {% endfor %}
