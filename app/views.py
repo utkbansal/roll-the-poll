@@ -6,6 +6,9 @@ from app import models, db
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from functools import wraps
 from GChartWrapper import Pie3D
+from flask.ext.admin import Admin, BaseView, expose
+from flask.ext.admin.contrib.sqla import ModelView
+
 
 
 #creating the @logout_required decorator
@@ -95,7 +98,7 @@ def add_poll():
         poll = models.Poll(
             body=poll_form.poll.data,
             user_id=g.user.id,
-            cat_id=poll_form.category.data,
+            cat_id=poll_form.poll_category.data,
             anonymous=poll_form.anonymous.data
         )
         db.session.add(poll)
@@ -179,3 +182,18 @@ def poll(poll):
         flash('Voted Successfully')
         return redirect('/')
     return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted, chart=chart)
+
+
+
+class MyView(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('admin_index.html')
+
+admin = Admin(app)
+
+admin.add_view(ModelView(models.User, db.session))
+admin.add_view(ModelView(models.Poll, db.session))
+admin.add_view(ModelView(models.Choice, db.session))
+admin.add_view(ModelView(models.Comment, db.session))
+admin.add_view(ModelView(models.Category, db.session))
