@@ -4,7 +4,8 @@
 <form id="container" action = "" method = "post" name = "signup">
     {{form.hidden_tag()}}
 
-    <p>Email &nbsp;&nbsp;&nbsp; &nbsp; {{form.email}}</p>
+
+    <p>Email &nbsp;&nbsp; &nbsp; &nbsp; {{form.email}}</p>
     {% for error in form.errors.email %}
     <span class="error">{{error}}</span>
     {% endfor %}

@@ -2,7 +2,7 @@
 {% block content %}
 <ul>
 {% for u in url.keys() %}
-<div>
+<div id="block">
     <li><a href="/poll/{{ url[u] }}">{{ u }}</a></li>
     <ol>
         {% for choice in u.choices.all() %}
@@ -11,7 +11,7 @@
         {% endfor %}
     </ol>
 </div>
-    <hr>
+
 {% endfor %}
 </ul>
 

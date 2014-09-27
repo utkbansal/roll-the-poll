@@ -3,9 +3,11 @@
 body{
     padding: 0;
     margin: 0;
-        background-color: #F0F0F0;
-
+    background-color:#e9eaed;
+    font-family: 'open sans';
 }
+
+
 h2{
     margin-top: 0;
 }
@@ -33,6 +35,7 @@ h2{
     position: fixed;
     top: 0px;
     right: 0px;
+    z-index: 100;
 }
 
 #rtp{
@@ -72,23 +75,27 @@ a:hover{
 }
 #container {
     margin-top: 100px;
-    position: absolute;
+    position: relative;
 }
 
 #left {
     width:250px;
     float:left;
-    border-right: 2px solid black;
+    //border-right: 2px solid black;
     position:fixed;
+    font-size: 24px;
+    line-height: 2em;
+    margin-top: 30px;
 }
 
 #middle {
     float: left;
     margin-left:250px;
     color:red;
-    background-color: #F0F0F0;
     height:100%;
+    width:50%;
     font-size:20px;
+    z-index:-1;
 }
 
 ul li{
@@ -98,3 +105,36 @@ ul li{
 a:link {
     text-decoration:none;
 }
+
+#block {
+   // border:1px solid black;
+    border-radius: 10px;
+    margin-top:20px;
+    background-color: #f0f0f0;
+    padding:15px;
+    box-shadow:2px 2px 2px #888888;
+   // border-right: 1px solid red;
+}
+/*
+#button {
+    color:#ffffff;
+    background-color:#357ae8 ;
+    padding: 5px 10px ;
+    border:1px solid #357ae8;
+    -moz-border-radius: 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    text-align: center;
+}
+*/
+/* #trending {
+    right:0px;
+    margin-top: 500px;
+    width:20%;
+   position:fixed;
+  //  position:relative;
+    margin-top:00px;
+   // color:blue;
+}
+*/

@@ -28,22 +28,28 @@
             {% endif %}
             {% endwith %}
 
-<div id="container">
+
 
     <div id="left">
         <ul>
-            <li>Compose</li>
+            <li><a href="/add-poll"> Compose</a></li>
             <li>My Polls</li>
             <li>Polls Participated</li>
 
 
     </div>
 
-
+<div id="container">
     <div id="middle">
          {% block content %}
          {% endblock  %}
      </div>
+
+  <!--  <div id="trending">
+        Trending
+
+
+    </div>  -->
 </div>
 
 </body>
