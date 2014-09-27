@@ -4,18 +4,19 @@ from forms import SignupForm, LoginForm, PollForm, VoteForm
 #from werkzeug.security import generate_password_hash
 from app import models, db
 from flask.ext.login import login_required, login_user, logout_user, current_user
-#from wtforms import ValidationError
 from functools import wraps
+from GChartWrapper import Pie3D
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.admin.contrib.sqla import ModelView
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
+#creating the @logout_required decorator
 def logout_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if g.user.is_authenticated():
-            #raise ValidationError('You are already logged in')
             flash('You are already logged in')
             return redirect(url_for('index'))
         return f(*args, **kwargs)
@@ -32,8 +33,8 @@ def before_request():
 def index():
     if g.user is not None:
         user = models.User.query.filter_by(email=g.user).first().name
-        #polls = models.Poll.query.all()
-        urls = {x: str(x.body).replace(' ', '-').replace('?', '~') for x in models.Poll.query.all()}
+        polls = sorted([x for x in models.Poll.query.all()], key = lambda y: y.timestamp, reverse = True)
+        urls = [(x, str(x.body).replace(' ', '-').replace('?', '~')) for x in polls]
 
         return render_template('content.html', user=user, url=urls)
 
@@ -58,17 +59,15 @@ def signup():
 @logout_required
 def login():
     login_form = LoginForm()
-    if login_form.validate_on_submit() and models.User.query.filter_by(email=str(login_form.email.data)).first() is not None:
-        password = str(models.User.query.filter_by(email=str(login_form.email.data)).first().password_hash)
-        if password == str(login_form.password.data):
-            login_user(models.User.query.filter_by(email=login_form.email.data).first(), remember=login_form.remember_me.data)
+    if login_form.validate_on_submit() :
+        user = models.User.query.filter_by(email=str(login_form.email.data)).first()
+        if user is not None and user.check_password(login_form.password.data):
+            login_user(user, login_form.remember_me.data)
             flash('Hi User')
             return redirect(url_for('index'))
-        else:
-            flash('Invalid credentials')
-            redirect(url_for('login'))
-    if models.User.query.filter_by(email=str(login_form.email.data)).first():
-        flash('Email Id Not Registered')
+
+        flash('Invalid credentials')
+        redirect(url_for('login'))
     return render_template('login.html', form=login_form)
 
 
@@ -85,8 +84,9 @@ def logout():
 def profile(id):
     msg = "hello"
     if models.User.query.get(id) is not None:
-        return render_template('profile.html', user=models.User.query.get(id).name)
-    return render_template('profile.html', user=None, alert=msg)
+        return render_template('profile.html', user=models.User.query.get(id))
+    else:
+        return render_template('profile.html', user=None, alert=msg)
 
 
 @app.route('/add-poll', methods=['GET', 'POST'])
@@ -151,6 +151,12 @@ def poll(poll):
                 voted = True
     #vote form ki choice field me choices add (to make a dynamic list for selection)
     vote_form.choice.choices = [(str(x.choice_id), str(x.value)) for x in models.Poll.query.filter_by(body = poll).first().choices.all()]
+
+    #adding pie chart
+    c = [x for x in models.Poll.query.filter_by(body = poll).first().choices]
+    v = [int(x.votes) for x in models.Poll.query.filter_by(body=poll).first().choices]
+    chart = str(Pie3D(v).color('red', 'green', 'blue', 'yellow'))
+
     if vote_form.validate_on_submit():
         # add a vote to the choice
         models.Choice.query.get(vote_form.choice.data).vote()
@@ -159,26 +165,23 @@ def poll(poll):
             poll_id=int(models.Poll.query.filter_by(body = poll).first().id),
             option_id = vote_form.choice.data
         )
+
         #update the isVoted table
         db.session.add(voted)
-        comment = models.Comment(
-            choice_id = vote_form.choice.data,
-            user_id=g.user.id,
-            body=vote_form.comment.data,
-            anonymous= vote_form.anonymous.data
-        )
 
-        db.session.add(comment)
-
+        if vote_form.comment.data is not None and vote_form.comment.data != '':
+            comment = models.Comment(
+                choice_id = vote_form.choice.data,
+                user_id=g.user.id,
+                body=vote_form.comment.data,
+                anonymous= vote_form.anonymous.data
+            )
+            db.session.add(comment)
         db.session.commit()
         flash('Voted Successfully')
         return redirect('/')
-    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted)
-#<<<<<<< HEAD
+    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted, chart=chart)
 
-
-
-    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted)
 
 
 class MyView(BaseView):
@@ -193,6 +196,3 @@ admin.add_view(ModelView(models.Poll, db.session))
 admin.add_view(ModelView(models.Choice, db.session))
 admin.add_view(ModelView(models.Comment, db.session))
 admin.add_view(ModelView(models.Category, db.session))
-'''=======
-
->>>>>>> d4235001f9c59111fcd1be630daec4814f915914'''

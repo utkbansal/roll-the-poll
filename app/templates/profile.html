@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
     {% if user %}
-    <p>This is the profile for {{ user }}</p>
+    <p>This is the profile for {{ user.name }}</p>
     {% else %}
     <p>Sorry ! No user found...</p>
     {% endif %}
-    <script type="text/javascript" src=""></script>
+
+    <ul>
+    {% for poll in user.polls.all() %}
+        <li>{{ poll }}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}

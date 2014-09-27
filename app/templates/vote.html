@@ -15,6 +15,7 @@
     {% endif %}
     {% if voted %}
         <p>{{ poll }}</p>
+        <img src="{{ chart }}"/>
         <ol>
         {% for choice in poll.choices.all() %}
         <li><p>{{ choice }}</p></li>
