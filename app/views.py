@@ -156,7 +156,9 @@ def poll(poll):
     #adding pie chart
     c = [x for x in models.Poll.query.filter_by(body = poll).first().choices]
     v = [int(x.votes) for x in models.Poll.query.filter_by(body=poll).first().choices]
-    chart = str(Pie3D(v).color('red', 'green', 'blue', 'yellow'))
+    l = [['choice', 'votes']]
+    for choice in c:
+        l.append([str(choice), int(choice.votes)])
 
     if vote_form.validate_on_submit():
         # add a vote to the choice
@@ -181,7 +183,7 @@ def poll(poll):
         db.session.commit()
         flash('Voted Successfully')
         return redirect('/')
-    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted, chart=chart)
+    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted, l=l)
 
 
 #implementing view of the polls in which user has participated

@@ -15,7 +15,25 @@
     {% endif %}
     {% if voted %}
         <p>{{ poll }}</p>
-        <img src="{{ chart }}"/>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable({{ l|safe }});
+
+        var options = {
+          title: '{{ poll.body|safe }}',
+          is3D: true
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+        <div id="piechart" style="width: 400px; height: 400px;"> </div>
         <ol>
         {% for choice in poll.choices.all() %}
         <li><p>{{ choice }}</p></li>
