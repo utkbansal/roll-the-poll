@@ -82,11 +82,12 @@ def logout():
 @app.route('/profile/<int:id>')
 @login_required
 def profile(id):
-    msg = "hello"
     if models.User.query.get(id) is not None:
-        return render_template('profile.html', user=models.User.query.get(id))
+        user = models.User.query.get(id)
+        anonymous = not(user.id == g.user.id)
+        return render_template('profile.html', user= user, anonymous = anonymous )
     else:
-        return render_template('profile.html', user=None, alert=msg)
+        return render_template('profile.html', user=None)
 
 
 @app.route('/add-poll', methods=['GET', 'POST'])

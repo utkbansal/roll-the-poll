@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
     {% if user %}
-    <p>This is the profile for {{ user.name }}</p>
-    {% else %}
-    <p>Sorry ! No user found...</p>
+    <p>Polls rolled by {{ user.name }}</p>
+        <ul>
+        {% if anonymous %}
+            {% for poll in user.polls %}
+                {% if not poll.anonymous %}
+                    <li><a href = "/poll/{{ poll.body.replace(' ', '-').replace('?', '~') }}">{{ poll }}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% for poll in user.polls %}
+                <li><a href = "/poll/{{ poll.body.replace(' ', '-').replace('?', '~') }}">{{ poll }}</a></li>
+            {% endfor %}
+        {% endif %}
+        </ul>
     {% endif %}
-
-    <ul>
-    {% for poll in user.polls.all() %}
-        <li>{{ poll }}</li>
-    {% endfor %}
-    </ul>
 {% endblock %}
