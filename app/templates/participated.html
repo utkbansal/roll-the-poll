@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <span><p>You have participated in the following polls:</p></span>
+    <ul>
+    {% for poll in polls %}
+        <li><a href = "/poll/{{ poll.body.replace(' ', '-').replace('?', '~') }}">{{ poll }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

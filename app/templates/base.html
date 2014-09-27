@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>{{ g.user.id }}</title>
+    <title>{{ g.user.name }} - RTP</title>
     <link rel="stylesheet" href="/static/css/base.css">
     <script src="/static/js/moment-with-locales.min.js"></script>
 
@@ -35,9 +35,10 @@
         <ul>
             <li><a href="/add-poll"> Compose</a></li>
             <li>My Polls</li>
-            <li>Polls Participated</li>
+            <li><a href = "/participated">Polls Participated</a></li>
 
 
+        </ul>
     </div>
 
 <div id="container">

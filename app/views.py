@@ -184,6 +184,13 @@ def poll(poll):
     return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted, chart=chart)
 
 
+#implementing view of the polls in which user has participated
+@app.route('/participated')
+@login_required
+def polls_participated():
+    user = models.User.query.get(g.user.id)
+    polls = [models.Poll.query.get(x) for x in models.isVoted.query.filter_by(user_id = g.user.id)]
+    return render_template('participated.html', user = user, polls = polls)
 
 class MyView(BaseView):
     @expose('/')

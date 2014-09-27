@@ -5,7 +5,7 @@
 {% for u in url %}
 <div class="block">
     {% if u[0].anonymous %}
-        <span>Rolled by Anonymous &nbsp;{{momentjs(u[0].timestamp).fromNow() }}</span>
+        <span>Rolled by Anonymous &nbsp;{{ momentjs(u[0].timestamp).fromNow() }}</span>
     {% else %}
         <span>Rolled by <a href = "/profile/{{ u[0].creator.id }}">{{ u[0].creator.name }}</a> &nbsp;{{momentjs(u[0].timestamp).fromNow() }} </span>
     {% endif %}
