@@ -7,10 +7,7 @@
     {% else %}
     <title>Roll The Poll</title>
     {% endif %}
-    <link rel="stylesheet" href="/static/css/signup.css">
-
-
-
+    <link rel="stylesheet" href="/static/css/new.css">
     <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
 
 </head>
@@ -19,7 +16,7 @@
     <div id="wrapper">
         <div id="header">
 
-            <h1><span class="heading">R</span>oll <span class="heading">T</span>he <span class="heading">P</span>oll</h1>
+            <h1>Roll The Poll</h1>
         </div>
 
          <div id="flash">
@@ -33,9 +30,34 @@
             {% endif %}
             {% endwith %}
           </div>
+        <div >
+            <p id="first">Live Audience Participation</p>
+            <p id="idea"><span class="blue"> Roll The Poll</span> started with the
+            simple idea that everyone has an opinion worth hearing...</p>
+            <img src="/static/img/desktop.png" id="desktop">
+        </div>
+
+        <div id="work">
+            <p id="second"><span class="pink">Roll The Poll </span> lets you engage your audience<br>
+                anywhere in real time...</p>
+            <img src="/static/img/how.png"><br>
+            <div class="content">Ask your audience a question<br> with<span class="pink"> Roll The Poll</span> app</div>
+            <div class="content">Audience answers in real time</div>
+            <div class="content">See your response live on the web</div>
+
+        </div>
         {% block content %}
         
         {% endblock %}
+    <div id="footer">
+            <div id="powered">Powered By</div>
+            <div id="logo"><a href="http://www.silive.in">
+            <img src="/static/img/si_logo.png">
+            <img src="static/img/sitext.png"></a>
+            </div>
+            <p><span class="blue">Redifining Limitations</span> </p>
     </div>
+    </div>
+
 </body>
 </html>

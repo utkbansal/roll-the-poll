@@ -1,7 +1,7 @@
 {% extends "signup_base.html" %}
 {% block content %}
-<h2>Sign In</h2>
-<form id="container" action = "" method = "post" name = "signup">
+<h2 class="blue">Sign In</h2>
+<form id="form" action = "" method = "post" name = "signup">
     {{form.hidden_tag()}}
 
 
@@ -18,7 +18,7 @@
 
     <p>{{ form.remember_me }} Remember Me </p>
 
-    <input id="button" type = "submit" value = "Sign In">
+    <input id="button" type = "submit" value = "Sign In"><br>
         <a id="sign_in" href="/register">Sign Up, to Register! </a>
 
 </form>

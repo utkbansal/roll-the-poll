@@ -1,7 +1,7 @@
 {% extends "signup_base.html" %}
 {% block content %}
-<h2>Sign up to Poll</h2>
-<form id="container" action = "" method = "post" name = "signup">
+<h2 class="blue">Sign up to Poll</h2>
+<form id="form" action = "" method = "post" name = "signup">
     {{form.hidden_tag()}}
     <p>Name &nbsp; &nbsp; &nbsp; {{form.name}}</p>
     {% for error in form.errors.name %}
