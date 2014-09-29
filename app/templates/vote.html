@@ -9,7 +9,7 @@
             <li>{{ form.choice }}</li>
             </ul>
             Comment your views <br>{{ form.comment }}<br><br>
-            {{ form.anonymous }} Anonymous<br><br>
+            {{ form.anonymous }} comment anonymously<br><br>
             {{ form.submit }}
         </form>
     {% endif %}
@@ -21,7 +21,7 @@
       google.setOnLoadCallback(drawChart);
       function drawChart() {
 
-        var data = google.visualization.arrayToDataTable({{ l|safe }});
+        var data = google.visualization.arrayToDataTable({{ choice_vote|safe }});
 
         var options = {
           title: '{{ poll.body|safe }}',
@@ -40,7 +40,12 @@
         <ul>
             {% for comment in choice.comments %}
                 {% if comment %}
-                <li>{{comment}}</li><br/><p>commented by {{ comment.commenter.name }}
+                <li>{{comment}}</li><br/><p>commented by 
+                    {% if comment.anonymous and not (comment.commenter.id == g.user.id) %}
+                        Anonymous
+                    {% else %}
+                        {{ comment.commenter.name }}
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </ul>

@@ -84,8 +84,8 @@ def logout():
 def profile(id):
     if models.User.query.get(id) is not None:
         user = models.User.query.get(id)
-        anonymous = not(user.id == g.user.id)
-        return render_template('profile.html', user= user, anonymous = anonymous )
+        is_anonymous = not(user.id == g.user.id)
+        return render_template('profile.html', user= user, is_anonymous = is_anonymous )
     else:
         return render_template('profile.html', user=None)
 
@@ -155,9 +155,9 @@ def poll(poll):
 
     #adding pie chart
     c = [x for x in models.Poll.query.filter_by(body = poll1).first().choices]
-    l = [['choice', 'votes']]
+    choice_vote = [['choice', 'votes']]
     for choice in c:
-        l.append([str(choice), int(choice.votes)])
+        choice_vote.append([str(choice), int(choice.votes)])
 
     if vote_form.validate_on_submit():
         # add a vote to the choice
@@ -182,7 +182,7 @@ def poll(poll):
         db.session.commit()
         flash('Voted Successfully')
         return redirect(url_for('poll',poll=poll))
-    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll1).first(), form = vote_form, voted=voted, l=l)
+    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll1).first(), form = vote_form, voted=voted, choice_vote=choice_vote)
 
 
 #implementing view of the polls in which user has participated

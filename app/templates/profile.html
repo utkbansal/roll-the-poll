@@ -4,7 +4,7 @@
     {% if user %}
     <p id="profile_para">Polls rolled by <span id="profile_name">{{ user.name }}</span> </p>
         <ul>
-        {% if anonymous %}
+        {% if is_anonymous %}
             {% for poll in user.polls %}
                 {% if not poll.anonymous %}
                  <div class="profile_question">    <li><a href = "/poll/{{ poll.body.replace(' ', '-').replace('?', '~') }}">{{ poll }}</a></li></div>
@@ -16,6 +16,8 @@
             {% endfor %}
         {% endif %}
         </ul>
+    
+    <p id="profile_para"><a href="/participated">Polls Participated</a></p>
     {% endif %}
 
 {% endblock %}
