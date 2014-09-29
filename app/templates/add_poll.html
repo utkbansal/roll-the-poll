@@ -1,19 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<div id = "form">
+<div id = "add_poll_form">
     <form  action = "" method = "post" name = "add_poll">
-    {{ form.errors }}
     {{ form.hidden_tag() }}
-    <p>Poll:  {{form.poll}}</p>
+    <p>Poll<br>{{form.poll}}</p>
     {% for error in form.errors.poll %}
     <span class="error">{{error}}</span>
     {% endfor %}
 
-    <p>Choice 1: {{ form.choice1 }}</p>
-    <p>Choice 2: {{ form.choice2 }}</p>
-    <p>Choice 3: {{ form.choice3 }}</p>
-    <p>Choice 4: {{ form.choice4 }}</p>
-    <p>Anonymous?? {{ form.anonymous}}</p>
+    <p>Choice 1 <br>{{ form.choice1 }}</p>
+    <p>Choice 2 <br>{{ form.choice2 }}</p>
+    <p>Choice 3 <br>{{ form.choice3 }}</p>
+    <p>Choice 4 <br>{{ form.choice4 }}</p>
+    <p>Anonymous?? <br>{{ form.anonymous}}</p>
     <p>Select a category for your question {{ form.poll_category }}</p>
     {{ form.submit }}
     </form>

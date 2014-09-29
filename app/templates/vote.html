@@ -2,14 +2,14 @@
 {% block content %}
     {% if not voted %}
 
-        <form method="post">
+        <form method="post" id="vote_form">
             {{ form.hidden_tag() }}
             {{ poll }}
                <ul>
             <li>{{ form.choice }}</li>
             </ul>
-            Comment your views {{ form.comment }}<br>
-            {{ form.anonymous }}Anonymous<br>
+            Comment your views <br>{{ form.comment }}<br><br>
+            {{ form.anonymous }} Anonymous<br><br>
             {{ form.submit }}
         </form>
     {% endif %}

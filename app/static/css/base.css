@@ -153,3 +153,87 @@ li img{
     height:10px;
 }
 
+#add_poll_form {
+    height: auto;
+    width: 650px;
+    margin: auto;
+    font-size: 20px;
+    margin-top: 10px;
+    padding: 40px;
+    padding-top: 5px;
+    background-color: #ffffff;
+}
+
+#poll {
+    min-width:500px;
+    min-height:150px;
+}
+
+#vote_form {
+    height: auto;
+    width: 650px;
+    margin: auto;
+    font-size: 20px;
+    margin-top: 10px;
+    padding: 40px;
+    padding-top: 5px;
+    background-color: #ffffff;
+}
+
+#comment {
+    width:600px;
+    height:150px;
+}
+
+#submit {
+
+    color:#ffffff;
+     background-color:#2da1dc ;
+    padding: 10px 120px;
+    border:1px solid #357ae8;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#poll_category {
+    width:130px;
+    height:30px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+}
+
+#middle {
+    margin:auto;
+  //  background-color: white;
+    width:60%;
+    margin-left:10%;
+    margin-top:20px;
+}
+
+.profile_question {
+    background-color: white;
+    margin-top: 15px;
+    padding:15px;
+}
+
+#profile_para {
+    font-size: 25px;
+}
+
+#profile_name {
+    color:#2da1dc;
+}
+
+
+.profile_question a {
+    text-decoration: none;
+    color: black;
+}
+
+.profile_question a:visited {
+    color:black;
+}
+
+.profile_question  a:hover{
+    text-decoration: underline;
+}

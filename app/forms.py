@@ -34,7 +34,7 @@ class PollForm(Form):
     choice4 = StringField('Choice 4', validators=[Optional()])
     poll_category = SelectField('Category', choices = [(str(x.id), str(x.name)) for x in models.Category.query.order_by('name')])
     anonymous = BooleanField('Anonymous')
-    submit = SubmitField('Submit')
+    submit = SubmitField('Add Poll')
 
 class VoteForm(Form):
     choice = RadioField('Select')
