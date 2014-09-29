@@ -32,11 +32,11 @@ def before_request():
 @login_required
 def index():
     if g.user is not None:
-        user = models.User.query.filter_by(email=g.user).first().name
+        voted_polls = [x.poll_id for x in models.isVoted.query.filter_by(user_id=g.user.id)]
         polls = sorted([x for x in models.Poll.query.all()], key = lambda y: y.timestamp, reverse = True)
-        urls = [(x, str(x.body).replace(' ', '-').replace('?', '~')) for x in polls]
+        poll_list = [(x, str(x.body).replace(' ', '-').replace('?', '~')) for x in polls]
 
-        return render_template('content.html', user=user, url=urls)
+        return render_template('content.html', voted_polls=voted_polls, poll_list=poll_list)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -140,22 +140,21 @@ def add_poll():
 @app.route('/poll/<poll>', methods=['GET', 'POST'])
 @login_required
 def poll(poll):
-    poll = poll.replace('-', ' ')
-    poll = poll.replace('~', '?')
+    poll1 = poll.replace('-', ' ')
+    poll1 = poll1.replace('~', '?')
     vote_form = VoteForm()
     voted = False
     var = models.isVoted.query.filter_by(user_id = g.user.id)
     vote_list = [x for x in var]
     if vote_list:
         for vote in vote_list:
-            if vote.poll_id == models.Poll.query.filter_by(body = poll).first().id:
+            if vote.poll_id == models.Poll.query.filter_by(body = poll1).first().id:
                 voted = True
     #vote form ki choice field me choices add (to make a dynamic list for selection)
-    vote_form.choice.choices = [(str(x.choice_id), str(x.value)) for x in models.Poll.query.filter_by(body = poll).first().choices.all()]
+    vote_form.choice.choices = [(str(x.choice_id), str(x.value)) for x in models.Poll.query.filter_by(body = poll1).first().choices.all()]
 
     #adding pie chart
-    c = [x for x in models.Poll.query.filter_by(body = poll).first().choices]
-    v = [int(x.votes) for x in models.Poll.query.filter_by(body=poll).first().choices]
+    c = [x for x in models.Poll.query.filter_by(body = poll1).first().choices]
     l = [['choice', 'votes']]
     for choice in c:
         l.append([str(choice), int(choice.votes)])
@@ -165,7 +164,7 @@ def poll(poll):
         models.Choice.query.get(vote_form.choice.data).vote()
         voted = models.isVoted(
             user_id=g.user.id,
-            poll_id=int(models.Poll.query.filter_by(body = poll).first().id),
+            poll_id=int(models.Poll.query.filter_by(body = poll1).first().id),
             option_id = vote_form.choice.data
         )
 
@@ -182,8 +181,8 @@ def poll(poll):
             db.session.add(comment)
         db.session.commit()
         flash('Voted Successfully')
-        return redirect('/')
-    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll).first(), form = vote_form, voted=voted, l=l)
+        return redirect(url_for('poll',poll=poll))
+    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll1).first(), form = vote_form, voted=voted, l=l)
 
 
 #implementing view of the polls in which user has participated
