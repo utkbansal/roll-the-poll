@@ -11,8 +11,8 @@
 <div id="navbar">
     <ul id = nav-wrap>
         <li class ="link" ><a href="/" id = "rtp">Roll The Poll</a></l1>
-        <li class ="link"><a href="">Home</a></l1>
-        <li class ="link"><a href="/profile/{{ g.user.id }}" id="right">{{ g.user.name }}</a></l1>
+      <!--  <li class ="link"><a href="">Home</a></l1>   -->
+        <li class ="link"><a href="/profile/{{ g.user.id }}" id="name">{{ g.user.name }}</a></l1>
     </ul>
 </div>
 
@@ -31,15 +31,7 @@
 
 
 
-    <div id="left">
-        <ul>
-            <li><a href="/add-poll"> Compose</a></li>
-            <li>My Polls</li>
-            <li><a href = "/participated">Polls Participated</a></li>
 
-
-        </ul>
-    </div>
 
 <div id="container">
     <div id="middle">
@@ -52,6 +44,11 @@
 
 
     </div>  -->
+
+ <div id="compose">
+
+       <a href="/add-poll" id="button"> Compose</a>
+ </div>
 </div>
 
 </body>

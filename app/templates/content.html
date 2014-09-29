@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<ul>
+<ul id = "home-polls">
 
 {% for u in url %}
 <div class="block">
     {% if u[0].anonymous %}
-        <span>Rolled by Anonymous &nbsp;{{ momentjs(u[0].timestamp).fromNow() }}</span>
+        <span class = "poll-block">Rolled by Anonymous &nbsp;<br><p><small>{{ momentjs(u[0].timestamp).fromNow() }}</small></p></span>
     {% else %}
-        <span>Rolled by <a href = "/profile/{{ u[0].creator.id }}">{{ u[0].creator.name }}</a> &nbsp;{{momentjs(u[0].timestamp).fromNow() }} </span>
+        <span>Rolled by <a href = "/profile/{{ u[0].creator.id }}" class="user">{{ u[0].creator.name }}</a><br> <small> &nbsp;{{momentjs(u[0].timestamp).fromNow() }} </small></span>
     {% endif %}
-    <li><a href="/poll/{{ u[1] }}">{{ u[0] }}</a></li>
+    <li><img src="/static/img/que.png" id="que_img"><a href="/poll/{{ u[1] }}" class="question"> {{ u[0] }}</a></li>
     <ol>
         {% for choice in u[0].choices.all() %}
         <li>{{ choice }}</li>
 
         {% endfor %}
     </ol>
+
 </div>
 
 {% endfor %}
