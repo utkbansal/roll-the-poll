@@ -40,12 +40,13 @@
         <ul>
             {% for comment in choice.comments %}
                 {% if comment %}
-                <li>{{comment}}</li><br/><p>commented by
+                <li class="comment">
                     {% if comment.anonymous and not (comment.commenter.id == g.user.id) %}
-                        Anonymous
+                        Anonymous :
                     {% else %}
-                        {{ comment.commenter.name }}
+                    <span class="name_comment">    {{ comment.commenter.name }}&nbsp: </span>
                     {% endif %}
+                    &nbsp {{comment}}</li>
                 {% endif %}
             {% endfor %}
         </ul>

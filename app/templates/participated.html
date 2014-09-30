@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <span><p>You have participated in the following polls:</p></span>
+    <h2>You have participated in the following polls</h2>
     <ul>
     {% for poll in polls %}
-        <li><a href = "/poll/{{ poll.body.replace(' ', '-').replace('?', '~') }}">{{ poll }}</a></li>
+        <li class="profile_question"><a href = "/poll/{{ poll.body.replace(' ', '-').replace('?', '~') }}">{{ poll }}</a></li>
     {% endfor %}
     </ul>
 {% endblock %}

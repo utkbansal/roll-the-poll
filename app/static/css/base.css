@@ -1,6 +1,8 @@
 @import url(http://fonts.googleapis.com/css?family=Rock+Salt);
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
 
+
+/* for whole body */
 body{
     font-family: 'Roboto', sans-serif;
     padding: 0;
@@ -17,6 +19,8 @@ h2{
 #question{
     text-align: center;
 }
+
+/* for headder */
 #navbar{
     padding: 0px;
     margin: 0;
@@ -41,7 +45,7 @@ h2{
     right: 0px;
 
 }
-
+/* for heading roll the poll */
 #rtp{
     font-size: 30px;
     padding-top: 0px;;
@@ -67,7 +71,7 @@ h2{
 
 }
 
-
+/* for name at headder */
 #name {
     float: right;
     padding-right: 30px;
@@ -81,11 +85,12 @@ ul li{
     list-style-type: none;
 }
 
+/* for container of main home page */
 #middle {
     width:70%;
     float:left;
 }
-
+/* for composing polls */
 #compose {
     float:right;
     display:inline-block;
@@ -102,7 +107,7 @@ ul li{
     position:relative;
 
 }
-
+/* for compose button */
 #button {
     float: right;
     font-size: 20px;
@@ -116,7 +121,7 @@ ul li{
     margin-top: 15px;
     margin-right: 35%;
 }
-
+/* for all div blocks in home page that is block for every poll */
 .block {
     background-color: #ffffff;
     margin:15px;
@@ -157,6 +162,7 @@ li img{
     height:10px;
 }
 
+/* for add poll form */
 #add_poll_form {
     height: auto;
     width: 650px;
@@ -174,6 +180,7 @@ li img{
     resize: none;
 }
 
+/* for comment page */
 #vote_form {
     height: auto;
     width: 650px;
@@ -215,12 +222,13 @@ li img{
     margin-top:20px;
 }
 
+/* for poll participated page */
 .profile_question {
     background-color: white;
     margin-top: 15px;
     padding:15px;
 }
-
+/* for profile page */
 #profile_para {
     font-size: 25px;
 }
@@ -246,3 +254,27 @@ li img{
 #piechart{
     margin: auto;
 }
+
+.comment {
+    background-color: #ffffff;
+    padding:5px;
+ }
+
+.name_comment {
+    color: #2da1dc;
+}
+
+#fotter {
+    width:100%
+    height:50px;
+    background-color: #2da1dc;
+    clear:both;
+    text-align: center;
+    padding: 8px;
+}
+
+#profile {
+    color: #444;
+    font-size: 25px;
+}
+
