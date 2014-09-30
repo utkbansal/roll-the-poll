@@ -4,17 +4,17 @@
 
 {% for poll_tuple in poll_list %}
 <div class="block">
-    {% if poll_tuple[0].anonymous %}
-        <span class="poll-block">Rolled by Anonymous &nbsp;<br><p><small>{{ momentjs(poll_tuple[0].timestamp).fromNow() }}</small></p></span>
-    {% else %}
-        <span>Rolled by <a href="/profile/{{ poll_tuple[0].creator.id }}" class="user">{{ poll_tuple[0].creator.name }}</a><br> <small> &nbsp;{{momentjs(poll_tuple[0].timestamp).fromNow() }} </small></span>
-    {% endif %}
     <li>
-    <img src="/static/img/que.png" class="que_img"><a href="/poll/{{ poll_tuple[1] }}" class="question"> {{ poll_tuple[0] }}</a>
+    <img src="/static/img/que.png" class="que_img"> <a href="/poll/{{ poll_tuple[1] }}" class="question">{{ poll_tuple[0] }}</a>
     {% if poll_tuple[0].id in voted_polls %}
         <img src = "/static/img/green-tick.png" class="tick" height="20" witdh="20" alt="voted" />
     {% endif %}
     </li>
+    {% if poll_tuple[0].anonymous %}
+        <span class="poll-block">Rolled by Anonymous &nbsp;<br><small>{{ momentjs(poll_tuple[0].timestamp).fromNow() }}</small></span>
+    {% else %}
+        <span>Rolled by <a href="/profile/{{ poll_tuple[0].creator.id }}" class="user">{{ poll_tuple[0].creator.name }}</a><br> <small> &nbsp;{{momentjs(poll_tuple[0].timestamp).fromNow() }} </small></span>
+    {% endif %}
     <ol>
         {% for choice in poll_tuple[0].choices.all() %}
         <li>{{ choice }}</li>

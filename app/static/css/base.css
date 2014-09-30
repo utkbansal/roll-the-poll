@@ -13,6 +13,10 @@ body{
 h2{
     margin-top: 0;
 }
+
+#question{
+    text-align: center;
+}
 #navbar{
     padding: 0px;
     margin: 0;
@@ -167,6 +171,7 @@ li img{
 #poll {
     min-width:500px;
     min-height:150px;
+    resize: none;
 }
 
 #vote_form {
@@ -236,4 +241,8 @@ li img{
 
 .profile_question  a:hover{
     text-decoration: underline;
+}
+
+#piechart{
+    margin: auto;
 }
