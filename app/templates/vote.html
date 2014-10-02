@@ -14,7 +14,7 @@
         </form>
     {% endif %}
     {% if voted %}
-        <p>{{ poll }}</p>
+        <h2 id="question">{{ poll }}</h2>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -24,7 +24,7 @@
         var data = google.visualization.arrayToDataTable({{ choice_vote|safe }});
 
         var options = {
-          title: '{{ poll.body|safe }}',
+
           is3D: true
         };
 
@@ -33,19 +33,20 @@
         chart.draw(data, options);
       }
     </script>
-        <div id="piechart" style="width: 400px; height: 400px;"> </div>
+        <div id="piechart" style="width: 600px; height: 400px;"> </div>
         <ol>
         {% for choice in poll.choices.all() %}
         <li><p>{{ choice }}</p></li>
         <ul>
             {% for comment in choice.comments %}
                 {% if comment %}
-                <li>{{comment}}</li><br/><p>commented by 
+                <li class="comment">
                     {% if comment.anonymous and not (comment.commenter.id == g.user.id) %}
-                        Anonymous
+                        Anonymous :
                     {% else %}
-                        {{ comment.commenter.name }}
+                    <span class="name_comment">    {{ comment.commenter.name }}&nbsp: </span>
                     {% endif %}
+                    &nbsp {{comment}}</li>
                 {% endif %}
             {% endfor %}
         </ul>

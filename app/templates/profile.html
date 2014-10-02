@@ -2,7 +2,7 @@
 {% block content %}
 
     {% if user %}
-    <p id="profile_para">Polls rolled by <span id="profile_name">{{ user.name }}</span> </p>
+    <p id="profile_para">Polls rolled by  <span id="profile_name">{{ user.name }}</span> </p>
         <ul>
         {% if is_anonymous %}
             {% for poll in user.polls %}
@@ -17,7 +17,7 @@
         {% endif %}
         </ul>
     
-    <p id="profile_para"><a href="/participated">Polls Participated</a></p>
+    <p><a href="/participated"  id='profile'>Polls Participated</a></p>
     {% endif %}
 
 {% endblock %}

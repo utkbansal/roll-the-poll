@@ -6,10 +6,15 @@ from app import models, db
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from functools import wraps
 from GChartWrapper import Pie3D
+from werkzeug.security import generate_password_hash, check_password_hash
+# for admin
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.admin.contrib.sqla import ModelView
-from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from functools import partial
+from flask.ext.admin import Admin as BaseAdmin, AdminIndexView
+from flask.ext.principal import Permission,identity_loaded, Need
+from flask.ext.security import current_user, url_for_security
+
 
 
 #creating the @logout_required decorator
@@ -93,6 +98,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    g.user = None
     flash('Logged Out')
     return redirect(url_for('login'))
 
@@ -211,15 +217,39 @@ def polls_participated():
     polls=[models.Poll.query.get(x) for x in models.isVoted.query.filter_by(user_id=g.user.id)]
     return render_template('participated.html', user=user, polls=polls)
 
-class MyView(BaseView):
-    @expose('/')
+
+# admin
+
+
+class MyView(ModelView):
+    pass
+    '''    def __init__(self,User, session, **kwargs):
+        # You can pass name and other parameters if you want to
+        super(MyUserView, self).__init__(User, session, **kwargs)
+
+
+    @expose('/admin')
     def index(self):
-        return self.render('admin_index.html')
+        return self.render('admin_index.html')'''
+
 
 admin=Admin(app)
 
-admin.add_view(ModelView(models.User, db.session))
-admin.add_view(ModelView(models.Poll, db.session))
-admin.add_view(ModelView(models.Choice, db.session))
-admin.add_view(ModelView(models.Comment, db.session))
-admin.add_view(ModelView(models.Category, db.session))
+'''    def is_accessible(self):
+        if current_user:
+            return g.user.id == 1
+        return False
+'''
+
+class MyAdminIndexView(AdminIndexView, BaseView, BaseAdmin):
+
+    def is_accessible(self):
+        return False
+
+admin = Admin(app)
+#admin.add_view(MyView(url=url_for('.index')))
+admin.add_view(MyView(models.User, db.session))
+admin.add_view(MyView(models.Poll, db.session))
+admin.add_view(MyView(models.Choice, db.session))
+admin.add_view(MyView(models.Comment, db.session))
+admin.add_view(MyView(models.Category, db.session))
