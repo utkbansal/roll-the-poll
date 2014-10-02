@@ -53,11 +53,7 @@ def index():
             for vote in choice_votes:
                 votes+=vote
             return votes
-        trending_polls=[]
-        trending_dict={vote_number(p[0]): p for p in recent_polls}
-        votes=sorted(trending_dict.keys(), reverse = True)
-        for vote in votes:
-            trending_polls.append(trending_dict[vote])
+        trending_polls=sorted(recent_polls, key=lambda y: vote_number(y[0]), reverse=True)
         trending_polls=trending_polls[:3]
         return render_template('content.html', voted_polls=voted_polls, poll_list=poll_list, trending=trending_polls)
 
@@ -230,12 +226,8 @@ class MyView(ModelView):
 
     @expose('/admin')
     def index(self):
-        return self.render('admin_index.html')'''
-
-
-admin=Admin(app)
-
-'''    def is_accessible(self):
+        return self.render('admin_index.html')
+    def is_accessible(self):
         if current_user:
             return g.user.id == 1
         return False
