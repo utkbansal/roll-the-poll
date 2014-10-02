@@ -9,7 +9,7 @@ from GChartWrapper import Pie3D
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.admin.contrib.sqla import ModelView
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from datetime import datetime
 
 
 #creating the @logout_required decorator
@@ -31,39 +31,57 @@ def before_request():
 @app.route('/')
 @login_required
 def index():
+    import datetime
     if g.user is not None:
-        voted_polls = [x.poll_id for x in models.isVoted.query.filter_by(user_id=g.user.id)]
-        polls = sorted([x for x in models.Poll.query.all()], key = lambda y: y.timestamp, reverse = True)
-        poll_list = [(x, str(x.body).replace(' ', '-').replace('?', '~')) for x in polls]
-
-        return render_template('content.html', voted_polls=voted_polls, poll_list=poll_list)
+        voted_polls=[x.poll_id for x in models.isVoted.query.filter_by(user_id=g.user.id)]
+        polls=sorted([x for x in models.Poll.query.all()], key=lambda y: y.timestamp, reverse=True)
+        poll_list=[(x, str(x.body).replace(' ', '-').replace('?', '~')) for x in polls]
+        one_day=datetime.timedelta(days = 1)
+        time_back=datetime.datetime.utcnow()-one_day
+        recent_polls=[]
+        for poll in poll_list:
+            if poll[0].timestamp > time_back:
+                recent_polls.append(poll)
+        def vote_number(poll):
+            choice_votes=[x.votes for x in poll.choices]
+            votes=0
+            for vote in choice_votes:
+                votes+=vote
+            return votes
+        trending_polls=[]
+        trending_dict={vote_number(p[0]): p for p in recent_polls}
+        votes=sorted(trending_dict.keys(), reverse = True)
+        for vote in votes:
+            trending_polls.append(trending_dict[vote])
+        trending_polls=trending_polls[:3]
+        return render_template('content.html', voted_polls=voted_polls, poll_list=poll_list, trending=trending_polls)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def signup():
-    signup_form = SignupForm()
+    signup_form=SignupForm()
     if signup_form.validate_on_submit():
-        user = models.User(name = signup_form.name.data,
-                                    email = signup_form.email.data,
-                                    password_hash = signup_form.password.data
+        user=models.User(name=signup_form.name.data,
+                                    email=signup_form.email.data,
+                                    password_hash=signup_form.password.data
         )
         db.session.add(user)
         db.session.commit()
 
         flash('Sign Up Sucessful')
         return redirect(url_for('index'))
-    return render_template('register.html', title='Sign Up', form=signup_form)
+    return render_template('register.html', title = 'Sign Up', form=signup_form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 @logout_required
 def login():
-    login_form = LoginForm()
+    login_form=LoginForm()
     if login_form.validate_on_submit() :
-        user = models.User.query.filter_by(email=str(login_form.email.data)).first()
+        user=models.User.query.filter_by(email=str(login_form.email.data)).first()
         if user is not None and user.check_password(login_form.password.data):
             login_user(user, login_form.remember_me.data)
-            flash('Hi User')
+            flash('Logged in successfully!')
             return redirect(url_for('index'))
 
         flash('Invalid credentials')
@@ -83,9 +101,9 @@ def logout():
 @login_required
 def profile(id):
     if models.User.query.get(id) is not None:
-        user = models.User.query.get(id)
-        is_anonymous = not(user.id == g.user.id)
-        return render_template('profile.html', user= user, is_anonymous = is_anonymous )
+        user=models.User.query.get(id)
+        is_anonymous=not(user.id==g.user.id)
+        return render_template('profile.html', user=user, is_anonymous=is_anonymous )
     else:
         return render_template('profile.html', user=None)
 
@@ -93,9 +111,9 @@ def profile(id):
 @app.route('/add-poll', methods=['GET', 'POST'])
 @login_required
 def add_poll():
-    poll_form = PollForm()
+    poll_form=PollForm()
     if poll_form.validate_on_submit():
-        poll = models.Poll(
+        poll=models.Poll(
             body=poll_form.poll.data,
             user_id=g.user.id,
             cat_id=poll_form.poll_category.data,
@@ -140,65 +158,65 @@ def add_poll():
 @app.route('/poll/<poll>', methods=['GET', 'POST'])
 @login_required
 def poll(poll):
-    poll1 = poll.replace('-', ' ')
-    poll1 = poll1.replace('~', '?')
-    vote_form = VoteForm()
-    voted = False
-    var = models.isVoted.query.filter_by(user_id = g.user.id)
-    vote_list = [x for x in var]
+    poll1=poll.replace('-', ' ')
+    poll1=poll1.replace('~', '?')
+    vote_form=VoteForm()
+    voted=False
+    var=models.isVoted.query.filter_by(user_id=g.user.id)
+    vote_list=[x for x in var]
     if vote_list:
         for vote in vote_list:
-            if vote.poll_id == models.Poll.query.filter_by(body = poll1).first().id:
-                voted = True
+            if vote.poll_id==models.Poll.query.filter_by(body=poll1).first().id:
+                voted=True
     #vote form ki choice field me choices add (to make a dynamic list for selection)
-    vote_form.choice.choices = [(str(x.choice_id), str(x.value)) for x in models.Poll.query.filter_by(body = poll1).first().choices.all()]
+    vote_form.choice.choices=[(str(x.choice_id), str(x.value)) for x in models.Poll.query.filter_by(body=poll1).first().choices.all()]
 
     #adding pie chart
-    c = [x for x in models.Poll.query.filter_by(body = poll1).first().choices]
-    choice_vote = [['choice', 'votes']]
+    c=[x for x in models.Poll.query.filter_by(body=poll1).first().choices]
+    choice_vote=[['choice', 'votes']]
     for choice in c:
         choice_vote.append([str(choice), int(choice.votes)])
 
     if vote_form.validate_on_submit():
         # add a vote to the choice
         models.Choice.query.get(vote_form.choice.data).vote()
-        voted = models.isVoted(
+        voted=models.isVoted(
             user_id=g.user.id,
-            poll_id=int(models.Poll.query.filter_by(body = poll1).first().id),
-            option_id = vote_form.choice.data
+            poll_id=int(models.Poll.query.filter_by(body=poll1).first().id),
+            option_id=vote_form.choice.data
         )
 
         #update the isVoted table
         db.session.add(voted)
 
         if vote_form.comment.data is not None and vote_form.comment.data != '':
-            comment = models.Comment(
-                choice_id = vote_form.choice.data,
+            comment=models.Comment(
+                choice_id=vote_form.choice.data,
                 user_id=g.user.id,
                 body=vote_form.comment.data,
-                anonymous= vote_form.anonymous.data
+                anonymous=vote_form.anonymous.data
             )
             db.session.add(comment)
         db.session.commit()
         flash('Voted Successfully')
         return redirect(url_for('poll',poll=poll))
-    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll1).first(), form = vote_form, voted=voted, choice_vote=choice_vote)
+    return render_template('vote.html',poll=models.Poll.query.filter_by(body=poll1).first(), form=vote_form, voted=voted, choice_vote=choice_vote)
 
 
 #implementing view of the polls in which user has participated
 @app.route('/participated')
 @login_required
 def polls_participated():
-    user = models.User.query.get(g.user.id)
-    polls = [models.Poll.query.get(x) for x in models.isVoted.query.filter_by(user_id = g.user.id)]
-    return render_template('participated.html', user = user, polls = polls)
+    user=models.User.query.get(g.user.id)
+    polls=[models.Poll.query.get(x) for x in models.isVoted.query.filter_by(user_id=g.user.id)]
+    return render_template('participated.html', user=user, polls=polls)
 
 class MyView(BaseView):
     @expose('/')
     def index(self):
         return self.render('admin_index.html')
 
-admin = Admin(app)
+admin=Admin(app)
 
 admin.add_view(ModelView(models.User, db.session))
 admin.add_view(ModelView(models.Poll, db.session))
