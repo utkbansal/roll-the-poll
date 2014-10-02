@@ -153,7 +153,7 @@ span .user{
     color: #375ae8;
 }
 
-li img{
+li img.que_img{
     background-color: #375ae8;
     padding: 1px;
 }
@@ -252,6 +252,11 @@ li img{
     text-decoration: underline;
 }
 
+div#trending {
+    width: 250px; height: auto; background-color:#eeeeee
+    position: relative;
+}
+
 #piechart{
     margin: auto;
 }
@@ -278,4 +283,3 @@ li img{
     color: #444;
     font-size: 25px;
 }
-
