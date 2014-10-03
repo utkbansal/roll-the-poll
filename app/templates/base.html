@@ -36,29 +36,41 @@
          {% endblock  %}
      </div>
 
- <!-- <div id="trending">
-        <h4>Trending</h4>
-        <ul id="trending-list">
-        {% for poll in trending %}
-            <li>{{ poll }}</li>
-            <ol class = "choices">
-            {% for choice in poll.choices%}
-                <li>choice</li>
-            {% endfor %}
-            </ol>
-        {% endfor %}
-        </ul>
-  </div> -->
 
- <div id="compose">
+    <div id="comp_trend">
 
-       <a href="/add-poll" id="button"> Compose</a>
- </div>
+        <div id="compose">
+        {% if not form %}
+            <a href="/add-poll" id="button"> Compose</a>
+        {% elif not form.poll %}
+            <a href="/add-poll" id="button"> Compose</a>
+        {% endif %}
+        </div>
+
+         <div id="trending">
+         {% if trending %}
+             <p id="name_trend">Trending</p>
+         {% endif %}
+             <ul id="trending-list">
+             {% for poll in trending %}
+                  <div class="block">
+
+
+                     <li><a href="/poll/{{ poll[1] }}" class = "question">{{ poll[0] }}</a></li>
+
+                  </div>
+             {% endfor %}
+             </ul>
+
+         </div>
+    </div>
+
+    <div id="fotter">
+        &copy; SOFTWARE INCUBATOR 2014
+    </div>
 </div>
 
-<div id="fotter">
-    &copy; SOFTWARE INCUBATOR 2014
-    </div>
+
 
 </body>
 </html>

@@ -14,6 +14,7 @@ from functools import partial
 from flask.ext.admin import Admin as BaseAdmin, AdminIndexView
 from flask.ext.principal import Permission,identity_loaded, Need
 from flask.ext.security import current_user, url_for_security
+from app import fb_login
 
 
 
@@ -105,7 +106,7 @@ def profile(id):
     if models.User.query.get(id) is not None:
         user=models.User.query.get(id)
         is_anonymous=not(user.id==g.user.id)
-        return render_template('profile.html', user=user, is_anonymous=is_anonymous )
+        return render_template('profile.html', user=user, is_anonymous=is_anonymous)
     else:
         return render_template('profile.html', user=None)
 

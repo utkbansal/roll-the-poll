@@ -90,22 +90,13 @@ ul li{
 #middle {
     width:70%;
     float:left;
-}
-/* for composing polls */
-#compose {
-    float:right;
-    display:inline-block;
-    width:20%;
-    height:100vh;
-    right:0px;
-    background-color:#f2f2f2 ;
-    margin-top: 0px;
-    margin-top: 0px;
+    min-height: 100%;
 }
 
 #container {
     display:inline;
-    position:relative;
+    position:absolute;
+    width: 100%;
 
 }
 /* for compose button */
@@ -120,7 +111,7 @@ ul li{
     cursor: pointer;
     text-align: center;
     margin-top: 15px;
-    margin-right: 35%;
+    margin-right:220%;
 }
 /* for all div blocks in home page that is block for every poll */
 .block {
@@ -162,7 +153,11 @@ li img.que_img{
     width:10px;
     height:10px;
 }
+.tick {
 
+    height: 20px;
+    witdh: 20;
+}
 /* for add poll form */
 #add_poll_form {
     height: auto;
@@ -221,6 +216,7 @@ li img.que_img{
     width:60%;
     margin-left:10%;
     margin-top:20px;
+    float:left;
 }
 
 /* for poll participated page */
@@ -252,10 +248,7 @@ li img.que_img{
     text-decoration: underline;
 }
 
-div#trending {
-    width: 250px; height: auto; background-color:#eeeeee
-    position: relative;
-}
+
 
 #piechart{
     margin: auto;
@@ -271,15 +264,61 @@ div#trending {
 }
 
 #fotter {
-    width:100%
-    height:50px;
+    position:absolute;
+    width:100%;
+    height:30px;
     background-color: #2da1dc;
-    clear:both;
+    clear: both;
     text-align: center;
     padding: 8px;
+    bottom: -180px;
+
 }
 
 #profile {
     color: #444;
     font-size: 25px;
+
+
+}
+
+/*  for compose and trending */
+
+
+#trending {
+    width:100%;
+    height: auto;
+    margin-top: 40%;
+    position: relative;
+    font-size: 12px;
+}
+
+#comp_trend {
+    position: relative;
+    float: left;
+    width:25%;
+
+
+}
+
+
+#compose {
+    position:relative;
+    float:right;
+    display:inline-block;
+    width:10%;
+    height:20%;
+    right:0px;
+    background-color:#f2f2f2 ;
+    margin-top: 0px;
+    margin-top: 0px;
+}
+#name_trend {
+    font-size:20px;
+    text-align: center;
+}
+
+
+#category {
+    text-align: right;
 }

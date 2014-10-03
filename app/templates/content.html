@@ -6,46 +6,27 @@
 <div class="block">
     <li>
     {% if poll_tuple[0].id in voted_polls %}
-        <img src = "/static/img/green-tick.png" class="tick" height="20" witdh="20" alt="voted" />
+        <img src = "/static/img/green-tick.png" class="tick"  alt="voted" />
     {% else%}
         <img src="/static/img/que.png" class="que_img">
     {% endif %}
     <a href="/poll/{{ poll_tuple[1] }}" class="question"> {{ poll_tuple[0] }}</a>
     </li>
     {% if poll_tuple[0].anonymous %}
-        <span class="poll-block">Rolled by Anonymous &nbsp;<br/>
+        <span class="poll-block">Rolled by Anonymous &nbsp;
     {% else %}
-        <span>Rolled by <a href="/profile/{{ poll_tuple[0].creator.id }}" class="user">{{ poll_tuple[0].creator.name }}</a><br/>
+        <span>Rolled by <a href="/profile/{{ poll_tuple[0].creator.id }}" class="user">{{ poll_tuple[0].creator.name }}</a>&nbsp;
     {% endif %}
-    <p><small> &nbsp;{{momentjs(poll_tuple[0].timestamp).fromNow() }} </small></p></span>
+   </br> <small> &nbsp;{{momentjs(poll_tuple[0].timestamp).fromNow() }} </small></span></br>
+
     <ol>
         {% for choice in poll_tuple[0].choices.all() %}
         <li>{{ choice }}</li>
         {% endfor %}
     </ol>
+<div id="category">Category: {{ poll_tuple[0].poll }}</div>
+
 </div>
 {% endfor %}
 </ul>
-<div id="trending">
-        <h4>Trending</h4>
-        <ul id="trending-list">
-        {% for poll in trending %}
-            <div class="block">
-            {% if poll[0].anonymous %}
-                <span>Rolled by Anonymous<br/>
-            {% else %}
-                <span>Rolled by <a href = "/profile/{{ poll[0].creator.id }}"> {{ poll[0].creator.name }}</a><br/>
-            {% endif %}
-            <p><small>{{ momentjs(poll[0].timestamp).fromNow() }}</small></p>
-            </span>
-            <li><a href="/poll/{{ poll[1] }}" class = "question">{{ poll[0] }}</a></li>
-            <ol>
-            {% for choice in poll[0].choices.all() %}
-                <li>{{ choice }}</li>
-            {% endfor %}
-            </ol>
-            </div>
-        {% endfor %}
-        </ul>
-</div>
 {% endblock %}
