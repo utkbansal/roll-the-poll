@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import string
 import datetime
 
-#user table
+#user class
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(150), index = True, nullable = False)
@@ -32,7 +32,7 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-#poll table
+#poll class
 class Poll(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     body = db.Column(db.Text(1000), nullable = False)
@@ -54,16 +54,16 @@ class Poll(db.Model):
     def __repr__(self):
         return self.body
 
-#category table
+#category class
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(150), unique = True, index = True, nullable = False)
-    polls = db.relationship("Poll", backref = "poll", lazy = "dynamic")
+    polls = db.relationship("Poll", backref = "category", lazy = "dynamic")
 
     def __repr__(self):
         return self.name
 
-#Choice table
+#Choice class
 class Choice(db.Model):
     alphabets = string.ascii_lowercase
     poll_id_dict = {}
@@ -101,7 +101,7 @@ class Choice(db.Model):
     def __repr__(self):
         return self.value
 
-#comment table
+#comment class
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     #comment choice id is c_choice_id
@@ -121,7 +121,7 @@ class Comment(db.Model):
     def __repr__(self):
         return self.body
 
-#voted table
+#voted class
 class isVoted(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
@@ -131,18 +131,10 @@ class isVoted(db.Model):
     def __repr__(self):
         return str(self.poll_id)
 
-
-'''class Admin(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), index=True, nullable=False)
-    email = db.Column(db.String(150),unique=True, nullable=False)
-    password_hash = db.Column(db.String(128))
-
-    def __init__(self, name, email, password):
-        self.name = name
-        self.email = email
-        self.password_hash = generate_password_hash(password)
+# Admin class
+class Admin(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    user_id=db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
-        return self.email
-'''
+        return self.id

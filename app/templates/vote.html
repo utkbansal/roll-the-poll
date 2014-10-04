@@ -12,8 +12,7 @@
             {{ form.anonymous }} comment anonymously<br><br>
             {{ form.submit }}
         </form>
-    {% endif %}
-    {% if voted %}
+    {% else %}
         <h2 id="question">{{ poll }}</h2>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -41,7 +40,7 @@
             {% for comment in choice.comments %}
                 {% if comment %}
                 <li class="comment">
-                    {% if comment.anonymous and not (comment.commenter.id == g.user.id) %}
+                    {% if comment.anonymous %}
                         Anonymous :
                     {% else %}
                     <span class="name_comment">    {{ comment.commenter.name }}&nbsp: </span>

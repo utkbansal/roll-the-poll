@@ -217,32 +217,17 @@ def polls_participated():
 
 # admin
 
-
-class MyView(ModelView):
-    pass
-    '''    def __init__(self,User, session, **kwargs):
-        # You can pass name and other parameters if you want to
-        super(MyUserView, self).__init__(User, session, **kwargs)
-
-
-    @expose('/admin')
-    def index(self):
-        return self.render('admin_index.html')
+class MyModelView(ModelView):
     def is_accessible(self):
-        if current_user:
-            return g.user.id == 1
-        return False
-'''
-
-class MyAdminIndexView(AdminIndexView, BaseView, BaseAdmin):
-
-    def is_accessible(self):
+        if g.user.is_authenticated():
+            return models.Admin.query.filter_by(user_id=g.user.id).first()
         return False
 
 admin = Admin(app)
 #admin.add_view(MyView(url=url_for('.index')))
-admin.add_view(MyView(models.User, db.session))
-admin.add_view(MyView(models.Poll, db.session))
-admin.add_view(MyView(models.Choice, db.session))
-admin.add_view(MyView(models.Comment, db.session))
-admin.add_view(MyView(models.Category, db.session))
+admin.add_view(MyModelView(models.User, db.session))
+admin.add_view(MyModelView(models.Poll, db.session))
+admin.add_view(MyModelView(models.Choice, db.session))
+admin.add_view(MyModelView(models.Comment, db.session))
+admin.add_view(MyModelView(models.Category, db.session))
+admin.add_view(MyModelView(models.Admin, db.session))
