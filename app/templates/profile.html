@@ -2,6 +2,8 @@
 {% block content %}
 
     {% if user %}
+         <p><a href="/participated"  id='profile'>Polls Participated</a></p>
+    <div id="polls_part">
     <p id="profile_para">Polls rolled by  <span id="profile_name">{{ user.name }}</span> </p>
         <ul>
         {% if is_anonymous %}
@@ -16,8 +18,8 @@
             {% endfor %}
         {% endif %}
         </ul>
-    
-    <p><a href="/participated"  id='profile'>Polls Participated</a></p>
+    </div>
+
     {% endif %}
 
 {% endblock %}

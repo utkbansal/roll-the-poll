@@ -6,7 +6,7 @@ import datetime
 
 #user class
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True) #primary key
     name = db.Column(db.String(150), index = True, nullable = False)
     email = db.Column(db.String(150), unique = True, nullable = False)
     password_hash = db.Column(db.String(128), nullable = False)#hashed_password

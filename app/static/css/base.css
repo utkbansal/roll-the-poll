@@ -111,7 +111,7 @@ ul li{
     cursor: pointer;
     text-align: center;
     margin-top: 15px;
-    margin-right:220%;
+    margin-right:200%;
 }
 /* for all div blocks in home page that is block for every poll */
 .block {
@@ -264,14 +264,15 @@ li img.que_img{
 }
 
 #fotter {
-    position:absolute;
-    width:100%;
+    position:relative;
+    width:98.8%;
     height:30px;
     background-color: #2da1dc;
     clear: both;
     text-align: center;
     padding: 8px;
-    bottom: -180px;
+   // bottom: -180px;
+    bottom:0px;
 
 }
 
@@ -280,6 +281,10 @@ li img.que_img{
     font-size: 25px;
 
 
+}
+
+#polls_part {
+    min-height: 389px;
 }
 
 /*  for compose and trending */

@@ -1,20 +1,14 @@
 from app import app
 from flask import render_template, flash, redirect, url_for, g
 from forms import SignupForm, LoginForm, PollForm, VoteForm
-#from werkzeug.security import generate_password_hash
 from app import models, db
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from functools import wraps
-from GChartWrapper import Pie3D
-from werkzeug.security import generate_password_hash, check_password_hash
 # for admin
 from flask.ext.admin import Admin, BaseView, expose
 from flask.ext.admin.contrib.sqla import ModelView
-from functools import partial
-from flask.ext.admin import Admin as BaseAdmin, AdminIndexView
-from flask.ext.principal import Permission,identity_loaded, Need
-from flask.ext.security import current_user, url_for_security
-from app import fb_login
+
+
 
 
 

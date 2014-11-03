@@ -1,10 +1,6 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
-from flask.ext.wtf.csrf import CsrfProtect
-from flask.ext.admin import Admin
-from flask.ext.admin.contrib.sqla import ModelView
-from flask.ext.mail import Mail
 from momentjs import momentjs
 
 
@@ -17,9 +13,6 @@ login_manager = LoginManager(app)
 
 #initialise database
 db = SQLAlchemy(app)
-
-#initialize mail
-mail = Mail(app)
 
 app.jinja_env.globals['momentjs'] = momentjs
 
